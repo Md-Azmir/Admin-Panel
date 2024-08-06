@@ -1,24 +1,26 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from "cors"
-const app=express();
-app.use(express.json())
-app.use(cors());
-dotenv.config()
-const connectApp=()=>{
-    mongoose.connect(process.env.MONGODB).then(()=>{
-        console.log("Database Connected")
-    }).catch((error)=>{
-        console.log(error);
-        throw error;
-    })
-}
-app.use('/',()=>{
-    console.log("am");
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
+const courseRoutes = require('./routes/courses');
 
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/admin_panel', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
-app.listen(800,()=>{
-    console.log("Server Connected at port",800)
-    connectApp()
-})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log(err));
+
+// Routes
+app.use('/api/courses', courseRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
