@@ -1,0 +1,32 @@
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 200px;
+  background: #f4f4f4;
+  padding: 20px;
+  position: fixed;
+  height: 100%;
+}
+
+.navbar {
+  background: #333;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  width: calc(100% - 200px);
+  left: 200px;
+}
+
+.content {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+.login, .dashboard {
+  padding: 20px;
+}
