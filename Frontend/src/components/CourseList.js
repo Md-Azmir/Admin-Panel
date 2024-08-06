@@ -2,58 +2,46 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const CourseList = () => {
-    const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([]);
 
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/courses');
-                setCourses(response.data);
-            } catch (error) {
-                console.error('There was an error fetching the courses!', error);
-            }
-        };
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
-        fetchCourses();
-    }, []);
+  const fetchCourses = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/courses');
+      setCourses(response.data);
+    } catch (error) {
+      console.error('There was an error fetching the courses!', error);
+    }
+  };
 
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/api/courses/delete/${id}`);
-            setCourses(courses.filter(course => course._id !== id));
-        } catch (error) {
-            console.error('There was an error deleting the course!', error);
-        }
-    };
+  const deleteCourse = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/courses/${id}`);
+      fetchCourses();
+    } catch (error) {
+      console.error('There was an error deleting the course!', error);
+    }
+  };
 
-    return (
-        <div>
-            <h1>All Courses</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Course Image</th>
-                        <th>Course Name</th>
-                        <th>Duration</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {courses.map(course => (
-                        <tr key={course._id}>
-                            <td><img src={`http://localhost:5000/${course.courseImage}`} alt={course.courseName} width="100" /></td>
-                            <td>{course.courseName}</td>
-                            <td>{course.duration}</td>
-                            <td>
-                                <button onClick={() => handleDelete(course._id)}>Delete</button>
-                                {/* Add links for Edit and View if needed */}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+  return (
+    <div className="course-list">
+      {courses.map((course) => (
+        <div key={course._id} className="course-item">
+          <img src={`http://localhost:3000/${course.image}`} alt={course.name} />
+          <div>{course.name}</div>
+          <div>{course.duration}</div>
+          <div className="actions">
+            <button onClick={() => deleteCourse(course._id)}>Delete</button>
+            <button>Edit</button>
+            <button>View</button>
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default CourseList;

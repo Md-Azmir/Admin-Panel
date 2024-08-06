@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: flex;
 }
 
 .App-logo {
@@ -7,11 +8,11 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+
 
 .App-header {
   background-color: #282c34;
@@ -28,11 +29,22 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sidebar {
+  width: 200px;
+  background: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 20px 0;
 }
